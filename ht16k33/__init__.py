@@ -21,6 +21,9 @@ BLINK_DISPLAYON = const(0x01)
 CMD_BRIGHTNESS = const(0xE0)
 OSCILATOR_ON = const(0x21)
 
+from .icons import heart, smile, sad, ghost, small_heart, tick, skull, cross, micropython, happy, neutral, sadface, eyes_closed, wink, oof
+from .scroller import *
+
 class HT16K33:
     """The base class for all HT16K33-based backpacks and wings."""
 
@@ -92,6 +95,9 @@ class HT16K33:
         
         self.i2c.writeto(self.i2c_address, self._buffer)
 
+    def update(self):
+        self.show()
+
     def fill(self, color:int):
         """Fill the whole display with the given color."""
         fill = 0xFF if color else 0x00
@@ -99,6 +105,30 @@ class HT16K33:
             self._buffer[i + 1] = fill
         if self._auto_write:
             self.show()
+    def clear(self):
+        self.fill(0)
+
+    def reverse_pixel(self, x:int, y:int, color:bool=None):
+        """ Draw a pixel on the display """
+#         x_order = [7, 0, 1, 2, 3, 4, 5, 6]
+        x_order = [6,5,4,3,2,1,0,7]
+        x = x_order[x]
+    
+        addr = 2 * y + x // 8
+        mask = 1 << x % 8
+        
+        if color is None:
+            return bool(self._buffer[addr] & mask)
+        
+        if color:
+            self._buffer[addr+1] |= mask # set the bit
+        else:
+            self._buffer[addr+1] &= ~mask # clear the bit
+
+        if self._auto_write:
+            self.show()
+            
+        return None
 
     def pixel(self, x:int, y:int, color:bool=None):
         """ Draw a pixel on the display """
@@ -120,7 +150,7 @@ class HT16K33:
             self.show()
             
         return None
-
+    
     def _set_buffer(self, i, value):
         """Set buffer value at position i to value"""
         self._buffer[i+1] = value 
@@ -134,9 +164,34 @@ class HT16K33:
         for row in range(8):
             for col in range(8):
                 bit = (icon_array[row] >> col) & 0b1
-                self.pixel(col, row, bit)
+                self.pixel(row, col, bit)
         if not self._auto_write:
             self.show()
 
+    def show_icon(self, name):
+        """Display an icon on the display."""
+        icons = {
+            "heart": heart,
+            "smile": smile,
+            "sad": sad,
+            "ghost": ghost,
+            "small_heart": small_heart,
+            "tick" : tick,
+            "skull" : skull,
+            "cross" : cross,
+            "micropython" : micropython,
+            "happy" : happy,
+            "neutral" : neutral,
+            "sadface" : sadface,
+            "eyes_closed" : eyes_closed,
+            "wink" : wink,
+            "oof" : oof
+        }
+
+        if name in icons:
+            self.icon(icons[name])
+        else:
+            valid_icons = ", ".join(icons.keys())
+            raise ValueError(f"Icon name must be one of: {valid_icons}")
 
         
