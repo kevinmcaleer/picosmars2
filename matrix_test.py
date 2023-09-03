@@ -34,8 +34,6 @@ def pulse_heart(times):
         matrix.clear()
     matrix.clear()
 
-
-
 def show_message(message):
     scroll.num_cols = 8
     scroll.num_rows = 5
