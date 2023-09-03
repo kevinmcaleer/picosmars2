@@ -8,7 +8,7 @@ License-Identifier: MIT
 - Authors: Radomir Dopieralski & Tony DiCola for Adafruit Industries
 - Ported to Micropython by Dale Weber <hybotics.wy@gmail.com>
 - Code tidied up, tested and ported to work with standard MicroPython 
-  on the Raspberry Pi Pico, added Text scrolling
+  on the Raspberry Pi Pico, added Text scrolling, and icons too
 
 """
 
@@ -110,7 +110,6 @@ class HT16K33:
 
     def reverse_pixel(self, x:int, y:int, color:bool=None):
         """ Draw a pixel on the display """
-#         x_order = [7, 0, 1, 2, 3, 4, 5, 6]
         x_order = [6,5,4,3,2,1,0,7]
         x = x_order[x]
     
