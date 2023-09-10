@@ -21,7 +21,7 @@ BLINK_DISPLAYON = const(0x01)
 CMD_BRIGHTNESS = const(0xE0)
 OSCILATOR_ON = const(0x21)
 
-from .icons import heart, smile, sad, ghost, small_heart, tick, skull, cross, micropython, happy, neutral, sadface, eyes_closed, wink, oof
+from .icons import heart, smile, sad, ghost, small_heart, tick, skull, cross, micropython, happy, neutral, sadface, eyes_closed, wink, oof, sleepy
 from .scroller import *
 
 class HT16K33:
@@ -184,7 +184,8 @@ class HT16K33:
             "sadface" : sadface,
             "eyes_closed" : eyes_closed,
             "wink" : wink,
-            "oof" : oof
+            "oof" : oof,
+            "sleepy": sleepy,
         }
 
         if name in icons:

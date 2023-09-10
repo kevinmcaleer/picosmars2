@@ -12,16 +12,17 @@ i2c = I2C(id, sda=sda, scl=scl)
 matrix = HT16K33(i2c)
 
 def blink(times):
+    speed = 1.0
     for _ in range(times):
         matrix.show_icon("happy")
-        sleep(0.1)
+        sleep(speed)
         matrix.clear()
         matrix.show_icon("eyes_closed")
-        sleep(0.1)
+        sleep(speed/2)
         matrix.show_icon("happy")
-        sleep(0.1)
+        sleep(speed)
         matrix.clear()
-    matrix.clear()
+#     matrix.clear()
 
 def pulse_heart(times):
 
@@ -33,6 +34,14 @@ def pulse_heart(times):
         sleep(0.1)
         matrix.clear()
     matrix.clear()
+
+def sleepy_time():
+    matrix.show_icon("happy")
+    sleep(0.5)
+    matrix.show_icon("sleepy")
+    sleep(0.5)
+    matrix.show_icon("eyes_closed")
+    sleep(1)
 
 def show_message(message):
     scroll.num_cols = 8
@@ -61,5 +70,13 @@ def demo():
 
 scroll = Scroller(matrix)
 while True:
-    matrix.show_icon("happy")
-#     demo()
+#     blink(10)
+#     matrix.clear()
+#     sleep(2)
+#     matrix.show_icon("eyes_closed")
+#     sleepy_time()
+#     message = '   Robots are COOL! @_@'
+
+#     show_message(message)
+#     matrix.show_icon("sleepy")
+    demo()
